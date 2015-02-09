@@ -1,6 +1,9 @@
+require_relative "response_handlers"
+
 module Artanis
   class Config
     MissingConfigError = Class.new(StandardError)
+    InvalidHandler = Class.new(StandardError)
 
     REQUIRED_KEYS = %w[endpoint]
 
@@ -21,6 +24,15 @@ module Artanis
       end
 
       config
+    end
+
+    def default_handler=(handler)
+      raise InvalidHandler unless handler.new.respond_to? :parse
+      @default_handler = handler
+    end
+
+    def default_handler
+      @default_handler || ResponseHandlers::NullHandler
     end
 
     def fetch(key)

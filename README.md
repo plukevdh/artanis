@@ -9,6 +9,8 @@ and your client in very similar style!
 ```ruby
 
 module GithubClient
+  include Artanis::Client
+
   class Users
     include Artanis::Resource
 
@@ -34,8 +36,10 @@ end
 client = GithubClient.new(config)
 
 client.users
-client.user(id)
+# returns all users...
 
+client.user(id)
+# returns a single user for an ID
 ```
 
 ## Installation

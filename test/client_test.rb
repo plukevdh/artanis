@@ -7,7 +7,7 @@ describe Artanis::Client do
 
   METHODS = %i[get post put delete patch]   # ... and more
 
-  let(:demo) { GithubClient.new(config) }
+  let(:demo) { GithubClient.new(build_config) }
   let(:url) { "https://api.github.com" }
 
   describe "client" do
@@ -25,6 +25,10 @@ describe Artanis::Client do
       METHODS.each do |method|
         assert_respond_to demo, method
       end
+    end
+
+    it "creates the full url for requests" do
+      assert_equal (url + "/users"), demo.send(:build_uri, "/users")
     end
   end
 
